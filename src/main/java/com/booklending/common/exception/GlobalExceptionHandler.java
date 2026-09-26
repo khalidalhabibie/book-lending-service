@@ -17,18 +17,15 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-public ResponseEntity<ApiResponse<Void>> handleValidationException(
-        MethodArgumentNotValidException ex) {
+  public ResponseEntity<ApiResponse<Void>> handleValidationException(
+      MethodArgumentNotValidException ex) {
 
-    String message = ex.getBindingResult()
-            .getFieldErrors()
-            .stream()
+    String message =
+        ex.getBindingResult().getFieldErrors().stream()
             .findFirst()
             .map(error -> error.getField() + " " + error.getDefaultMessage())
             .orElse("Invalid request");
 
-    return ResponseEntity
-            .badRequest()
-            .body(ApiResponse.error("VALIDATION_ERROR", message));
-}
+    return ResponseEntity.badRequest().body(ApiResponse.error("VALIDATION_ERROR", message));
+  }
 }
