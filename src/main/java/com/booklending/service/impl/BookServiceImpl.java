@@ -12,10 +12,12 @@ import com.booklending.service.BookService;
 import java.time.Instant;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
@@ -40,6 +42,9 @@ public class BookServiceImpl implements BookService {
     book.setUpdatedAt(Instant.now());
 
     book = bookRepository.save(book);
+
+    log.info(
+        "[BookServiceImpl][create] Book created: bookId={}, isbn={}", book.getId(), book.getIsbn());
 
     return BookResponse.builder()
         .id(book.getId())
@@ -125,6 +130,9 @@ public class BookServiceImpl implements BookService {
     book.setUpdatedAt(Instant.now());
 
     book = bookRepository.save(book);
+
+    log.info(
+        "[BookServiceImpl][update] Book updated: bookId={}, isbn={}", book.getId(), book.getIsbn());
 
     return BookResponse.builder()
         .id(book.getId())

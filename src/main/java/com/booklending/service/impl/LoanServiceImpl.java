@@ -15,11 +15,13 @@ import com.booklending.service.LoanService;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LoanServiceImpl implements LoanService {
@@ -94,6 +96,12 @@ public class LoanServiceImpl implements LoanService {
     bookRepository.save(book);
     loan = loanRepository.save(loan);
 
+    log.info(
+        "[LoanServiceImpl][borrow] Book borrowed: loanId={}, bookId={}, memberId={}",
+        loan.getId(),
+        book.getId(),
+        member.getId());
+
     return LoanResponse.builder()
         .id(loan.getId())
         .bookId(book.getId())
@@ -142,6 +150,12 @@ public class LoanServiceImpl implements LoanService {
 
     bookRepository.save(book);
     loan = loanRepository.save(loan);
+
+    log.info(
+        "[LoanServiceImpl][returnBook] return data: loanId={}, bookId={}, memberId={}",
+        loan.getId(),
+        book.getId(),
+        loan.getMember().getId());
 
     return LoanResponse.builder()
         .id(loan.getId())
