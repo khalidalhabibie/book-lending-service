@@ -12,10 +12,12 @@ import com.booklending.service.MemberService;
 import java.time.Instant;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
@@ -37,6 +39,8 @@ public class MemberServiceImpl implements MemberService {
     member.setUpdatedAt(Instant.now());
 
     member = memberRepository.save(member);
+
+    log.info("[MemberServiceImpl][create] Member created: memberId={}", member.getId());
 
     return MemberResponse.builder()
         .id(member.getId())
@@ -103,6 +107,8 @@ public class MemberServiceImpl implements MemberService {
     member.setUpdatedAt(Instant.now());
 
     member = memberRepository.save(member);
+
+    log.info("[MemberServiceImpl][update] Member updated: memberId={}", member.getId());
 
     return MemberResponse.builder()
         .id(member.getId())
