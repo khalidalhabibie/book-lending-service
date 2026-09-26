@@ -16,12 +16,21 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(auth -> auth
-        .requestMatchers(HttpMethod.POST, "/api/books/**").hasRole("ADMIN")
-        .requestMatchers(HttpMethod.PUT, "/api/books/**").hasRole("ADMIN")
-        .requestMatchers(HttpMethod.POST, "/api/members/**").hasRole("ADMIN")
-        .requestMatchers(HttpMethod.PUT, "/api/members/**").hasRole("ADMIN")
-        .anyRequest().authenticated())
+        .authorizeHttpRequests(
+            auth ->
+                auth.requestMatchers(
+                        "/actuator/health", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/books/**")
+                    .hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/books/**")
+                    .hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/members/**")
+                    .hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/members/**")
+                    .hasRole("ADMIN")
+                    .anyRequest()
+                    .authenticated())
         .httpBasic(Customizer.withDefaults());
 
     return http.build();

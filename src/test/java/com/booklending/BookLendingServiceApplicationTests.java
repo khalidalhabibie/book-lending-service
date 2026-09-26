@@ -1,10 +1,10 @@
-package com.book_lending_service;
+package com.booklending;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BookLendingServiceApplicationTests {
+class BookLendingApplicationTests {
 
   @Test
   void contextLoads() {}
